@@ -1,0 +1,47 @@
+# Dependencies and package manager caches
+node_modules/
+.npm/
+.pnpm-store/
+
+# Environment files and local credentials
+.env
+.env.*
+!.env.example
+*.local
+.aws/
+.ssh/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Build output, coverage, and tool caches
+dist/
+dist-ssr/
+build/
+coverage/
+.nyc_output/
+.cache/
+.vite/
+*.tsbuildinfo
+.eslintcache
+
+# Logs and diagnostic reports
+logs/
+*.log
+report.*.json
+
+# Local PostgreSQL data and database dumps
+pgdata/
+*.dump
+*.backup
+
+# Editor and operating system files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

@@ -8,6 +8,10 @@ const routes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/', async () => {
         return { messages: 'Backend Working' };
     });
+
+    fastify.get('/health', async () => {
+        return { messages: '200', status: 'OK' };
+    });
 };
 
 export = routes;

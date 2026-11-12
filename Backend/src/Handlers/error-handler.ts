@@ -10,3 +10,5 @@ const notFoundHandler = (request: FastifyRequest, reply: FastifyReply) => {
         statusCode: 404,
     })
 }
+
+export = notFoundHandler

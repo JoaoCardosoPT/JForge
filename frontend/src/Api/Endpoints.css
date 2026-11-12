@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #222222;
+}
+
+main {
+  min-height: 100svh;
+  padding: 16px;
+}
+
+.health-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(100%, 150px);
+  padding: 12px 16px;
+  border: 1px solid #cccccc;
+  background: #f5f5f5;
+  line-height: 1.5;
+}
+
+.health-status__message {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.health-status__code {
+  flex-shrink: 0;
+  padding-left: 16px;
+  border-left: 1px solid #cccccc;
+  font-variant-numeric: tabular-nums;
+}
+
+.health-status--ok {
+  color: #000000;
+}
+
+.health-status--error {
+  color: #a12622;
+}
