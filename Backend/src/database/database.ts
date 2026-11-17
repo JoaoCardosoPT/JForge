@@ -4,6 +4,7 @@ import pg = require('pg');
 if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL is missing');
 }
+
 /* 
   A pool is a system that reuses connections between frontend and backend 
 */
