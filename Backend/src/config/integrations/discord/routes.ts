@@ -45,11 +45,12 @@ const discordRoutes: FastifyPluginAsync = async (fastify) => {
 
             const { channelId } = request.params;
             const { content } = request.body;
+            const signal = AbortSignal.timeout(10_000);
 
             try {
               // send message using our bot stored in the backend
               const discordResponse = await fetch(
-                `https://github.com/JoaoCardosoPT/JForg://github.com/JoaoCardosoPT/JForge`,
+                `https://discord.com/api/v10/channels/${channelId}/messages`,
                 {
                     method: "POST",
                     headers: {
@@ -60,22 +61,38 @@ const discordRoutes: FastifyPluginAsync = async (fastify) => {
                       content,
                       allowed_mentions: {parse: [] },
                     }),
-                    signal: AbortSignal.timeout(10_000),
+                    signal,
                 },
-
-              const data: unknown  = await discordResponse.json();
-
-              if (discordResponse.status(429).send({
-                  const retryAfter = discordResponse.get("Retry-After");
+              );
+              // edge cases for error handling in our discord api
+              if (discordResponse.status === 429) {
+                  const retryAfter = discordResponse.headers.get("Retry-After");
                   if (retryAfter) reply.header("Retry-After", retryAfter);
 
                   return reply.code(429).send({
                     error: "Rate limit Reached. Try again Later",
                   });
+              }
 
-              }))
-            
-            } catch (error) {}  
+              if (!discordResponse.ok) {
+                  return reply.code(502).send({ error: "Discord rejected the message" });
+              }
+
+              const data: unknown = await discordResponse.json();
+              if (typeof data !== "object" || data === null || !("id" in data) || typeof data.id !== "string") {
+                  return reply.code(502).send({ error: "Invalid message response from Discord" });
+              }
+
+              return reply.code(201).send({ messageId: data.id });
+            } catch (error) {
+              if (signal.aborted) {
+                  return reply.code(504).send({ error: "Discord request timed out" });
+              }
+
+              request.log.error({ err: error }, "Discord request failed");
+              return reply.code(502).send({ error: "Discord request failed" });
+            }
+        },
     );
 };
 
