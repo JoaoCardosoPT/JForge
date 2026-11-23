@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 export type IconName =
   | 'github' | 'discord' | 'external' | 'code' | 'cloud' | 'layers'
   | 'nodes' | 'home' | 'list' | 'puzzle' | 'settings' | 'play' | 'pause'
-  | 'mail' | 'database' | 'http' | 'minus' | 'plus' | 'fit';
+  | 'mail' | 'database' | 'http' | 'minus' | 'plus' | 'fit' | 'chevron-down';
 
 const drawings: Record<IconName, ReactNode> = {
   github: <path fill="currentColor" stroke="none" d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.5-.29-5.13-1.26-5.13-5.57 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.97 0 0 .95-.3 3.1 1.15a10.8 10.8 0 0 1 5.62 0c2.15-1.46 3.1-1.15 3.1-1.15.61 1.54.23 2.69.11 2.97.72.79 1.16 1.79 1.16 3.02 0 4.32-2.63 5.28-5.14 5.56.4.35.76 1.03.76 2.08v3.1c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z" />,
@@ -25,6 +25,7 @@ const drawings: Record<IconName, ReactNode> = {
   minus: <path d="M5 12h14" />,
   plus: <path d="M5 12h14M12 5v14" />,
   fit: <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />,
+  'chevron-down': <path d="m6 9 6 6 6-6" />,
 };
 
 export function Icon({ name, size = 24 }: { name: IconName; size?: number }) {
