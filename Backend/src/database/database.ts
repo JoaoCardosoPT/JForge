@@ -1,14 +1,11 @@
 import 'dotenv/config';
 import pg = require('pg');
 
-if (!process.env.DATABASE_URL) {
-    throw new Error('DATABASE_URL is missing');
-}
-
 /* 
   A pool is a system that reuses connections between frontend and backend 
 */
 const pool = new pg.Pool({
+    // When DATABASE_URL is absent, pg uses the PG* environment variables.
     connectionString: process.env.DATABASE_URL,
     // Maximum number of clients in the pool
     max: 10,
