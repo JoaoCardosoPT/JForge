@@ -1,4 +1,4 @@
-// starts the server and listens on port 5000
+// starts the server using the configured port, or 5000 locally
 import buildApp = require("./app");
 
 let isShuttingDown = false;
@@ -25,7 +25,10 @@ async function startServer() {
         process.on('SIGINT', () => shutdown('SIGINT'));
         process.on('SIGTERM', () => shutdown('SIGTERM'));
 
-        await app.listen({ port: 5000 });
+        await app.listen({
+            port: Number(process.env.PORT ?? 5000),
+            host: '0.0.0.0',
+        });
     } catch (err) {
         console.error(err);
         process.exit(1);
