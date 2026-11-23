@@ -106,7 +106,7 @@ export function WorkflowPreview() {
               <div className="workflow-name">
                 <span className="workflow-breadcrumb">Workflows</span>
                 <span className="toolbar-divider" aria-hidden="true">›</span>
-                <span className="workflow-title">Discord Notification</span>
+                <span className="workflow-title">Release Announcements</span>
               </div>
               <div className="demo-actions">
                 <button type="button" className="demo-button" onClick={replayDemo}
@@ -121,7 +121,7 @@ export function WorkflowPreview() {
             </div>
             <div className="demo-canvas">
               <svg className="workflow-graph" viewBox={isCompact ? '0 0 340 300' : '0 0 700 260'} role="img"
-                aria-label="Example workflow: a Discord message triggers an HTTP request, then sends an email and updates a database.">
+                aria-label="Example workflow: announce a new JForge release in the Discord channels #announcements and #changelog.">
                 <g className="graph-content"
                   transform={`translate(${graphCenter}) scale(${zoom}) translate(${isCompact ? '-170 -150' : '-350 -130'})`}>
                   <g fill="none" className="graph-connections">
@@ -133,14 +133,14 @@ export function WorkflowPreview() {
                         <path key={path} pathLength="100" d={path} className={index > 0 ? 'branch-pulse' : ''} />
                       ))}
                     </g>
-                    <WorkflowNode x={isCompact ? 94 : 44} y={isCompact ? 10 : 99} width={isCompact ? 152 : 148} icon="discord"
-                      title="Discord" detail="New Message" delay="0s" />
+                    <WorkflowNode x={isCompact ? 94 : 44} y={isCompact ? 10 : 99} width={isCompact ? 152 : 148} icon="github"
+                      title="New Release" detail="JForge" delay="0s" />
                     <WorkflowNode x={isCompact ? 91 : 252} y={isCompact ? 109 : 99} width={158} icon="http"
-                      title="HTTP Request" detail="POST /api" delay="1s" />
-                    <WorkflowNode x={isCompact ? 10 : 482} y={isCompact ? 222 : 42} width={isCompact ? 153 : 172} icon="mail"
-                      title="Send Email" delay="2.4s" />
-                    <WorkflowNode x={isCompact ? 177 : 482} y={isCompact ? 222 : 154} width={isCompact ? 153 : 172} icon="database"
-                      title="Update Database" delay="2.4s" />
+                      title="JForge API" detail="POST message" delay="1s" />
+                    <WorkflowNode x={isCompact ? 10 : 482} y={isCompact ? 222 : 42} width={isCompact ? 153 : 172} icon="discord"
+                      title="Post Update" detail="#announcements" delay="2.4s" />
+                    <WorkflowNode x={isCompact ? 177 : 482} y={isCompact ? 222 : 154} width={isCompact ? 153 : 172} icon="discord"
+                      title="Post Update" detail="#changelog" delay="2.4s" />
                   </g>
                   <g className="graph-ports" aria-hidden="true">
                     {ports.map(([x, y]) => <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" />)}

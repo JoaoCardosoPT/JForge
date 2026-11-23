@@ -38,7 +38,7 @@ export default function App() {
             </div>
           </div>
 
-          <section id="features" className="feature-grid" aria-label="JForge features">
+          <section id="features" className="feature-grid" aria-label="JForge features" tabIndex={-1}>
             {features.map(({ icon, title, description }, index) => (
               <Reveal key={title} delay={index * 70}>
                 <article className="feature-card">
@@ -61,6 +61,9 @@ export default function App() {
           </Reveal>
         </section>
       </main>
+      <a className="github-icon" href="https://github.com/JoaoCardosoPT/JForge" aria-label="JForge on GitHub">
+        <Icon name="github" size={23} />
+      </a>
     </div>
   );
 }

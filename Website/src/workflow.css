@@ -108,9 +108,12 @@
   justify-self: center;
   width: 7rem;
   padding-top: calc(var(--orbit-drop) + 0.5rem);
+  clip-path: inset(var(--orbit-drop) -1rem calc(100% - var(--space-before-cards)));
+}
+.workflow-scroll-guide:has(.workflow-scroll-arrow:focus-visible) {
+  z-index: 2;
   clip-path: inset(var(--orbit-drop) -1rem -1rem);
 }
-.workflow-scroll-guide:has(.workflow-scroll-arrow:focus-visible) { z-index: 2; }
 .workflow-scroll-marker {
   position: sticky;
   top: max(69svh, calc(100svh - 24rem));
