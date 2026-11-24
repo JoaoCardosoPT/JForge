@@ -4,6 +4,7 @@ export default function App() {
   return (
     <main>
       <Endpoints />
+      <Discord/>
     </main>
   );
 }
