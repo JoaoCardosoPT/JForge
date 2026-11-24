@@ -1,44 +1,22 @@
 <h1 align="center">JForge</h1>
 
-<p align="center"><strong>Connect your tools and automate repetitive work.</strong></p>
+<p align="center"><strong>Connect Your Major Needs and Automate Them</strong></p>
 
 <p align="center">
-  <a href="https://jforge.joaopmrcardoso.workers.dev/"><strong>Visit the website</strong></a>
+  <a href="https://jforge.joaopmrcardoso.workers.dev/"><strong> Website</strong></a>
   &nbsp;·&nbsp;
-  <a href="#architecture">Architecture</a>
-  &nbsp;·&nbsp;
-  <a href="#run-locally">Run locally</a>
+  <a href="#architecture-discord-example">Architecture</a>
 </p>
 
 ---
 
-JForge is a workflow automation project with Discord as its first integration. The website previews how a new GitHub release could trigger posts in `#announcements` and `#changelog`. Use **Test** on the site to replay the demo, or call the JForge API to send a message to a Discord channel.
+JForge is a workflow automation project done by me to improve my full-stack skills as well as retrive to the community. the website itself for now its on beta and shows just the basic UI of the plantform itself
 
-## Architecture
+## Architecture Discord Example
 
-```mermaid
-flowchart LR
-    subgraph web["Browser apps"]
-        site["Website<br/>Workflow demo"]
-        status["Status UI"]
-    end
+![An API client sends an authenticated POST to Fastify. Fastify checks its PostgreSQL connection at startup and posts messages to Discord.](docs/discord-architecture.png)
 
-    status -->|"GET /api/health"| api["Fastify API"]
-    client["API client"] -->|"Authenticated POST"| api
-    api -->|"Startup connection check"| db[("PostgreSQL")]
-    api -->|"Post channel message"| discord["Discord API"]
-```
-
-| Component | Stack | Responsibility |
-| --- | --- | --- |
-| [Website](Website/) | React, TypeScript, Vite | Renders the landing page and the interactive workflow demo. |
-| [Status UI](frontend/) | React, Vite | Calls `/api/health` and displays the backend’s HTTP status. |
-| [API](Backend/) | Fastify, TypeScript | Serves health endpoints, validates Discord message requests, and calls Discord with a server-side bot token. |
-| [Database](Backend/src/database/database.ts) | PostgreSQL, `pg` | Provides a connection pool. The API checks connectivity before it starts listening. |
-
-The website runs on Cloudflare Workers. The API runs on Railway and exposes a public health endpoint. [Live API health check](https://jforge-production.up.railway.app/api/health)
-
-## Run locally
+## Run locally (For Tests While the main plantform is not active)
 
 Use Node.js 22.12 or newer with npm. Running the API also requires a reachable PostgreSQL instance.
 
@@ -85,6 +63,7 @@ npm --prefix frontend run dev
 Vite forwards `/api` requests to `http://localhost:5000` by default. If the API runs on a different origin, set `API_TARGET` in `frontend/.env`. [Local status UI](http://localhost:5173)
 
 ## Discord integration
+As of now these is a really beta version, but later the authentication and use of personal API keys will be made inside of the plantform 
 
 To send a message, set `JFORGE_API_KEY` and `DISCORD_BOT_TOKEN` in `Backend/.env`. The bot needs permission to send messages in the destination channel.
 
