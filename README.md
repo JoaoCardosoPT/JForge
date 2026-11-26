@@ -1,24 +1,24 @@
-<h1 align="center">JForge</h1>
-
-<p align="center"><strong>Connect Your Major Needs and Automate Them</strong></p>
-
 <p align="center">
-  <a href="https://jforge.joaopmrcardoso.workers.dev/"><strong> Website</strong></a>
-  &nbsp;·&nbsp;
-  <a href="#architecture-discord-example">Architecture</a>
+  <img src="docs/jforge-logo.png" width="104" height="104" alt="JForge monogram">
 </p>
 
----
+<h1 align="center">JForge</h1>
 
-JForge is a workflow automation project done by me to improve my full-stack skills as well as retrive to the community. the website itself for now its on beta and shows just the basic UI of the plantform itself
+<p align="center">Open-source workflow automation, starting with Discord.</p>
 
-## Architecture Discord Example
+<p align="center">
+  <a href="https://jforge.joaopmrcardoso.workers.dev/"><strong>Visit the website ↗</strong></a>
+  &nbsp;·&nbsp; <a href="#run-locally">Run locally</a>
+  &nbsp;·&nbsp; <a href="#discord-integration">Discord API</a>
+</p>
 
-![An API client sends an authenticated POST to Fastify. Fastify checks its PostgreSQL connection at startup and posts messages to Discord.](docs/discord-architecture.png)
+[![The JForge homepage shows a new release passing through the API to the Discord channels #announcements and #changelog, then scrolls to the integrations section.](docs/homepage-preview.gif)](https://jforge.joaopmrcardoso.workers.dev/)
 
-## Run locally (For Tests While the main plantform is not active)
+I started JForge to practice full-stack development and share what I build. The public beta previews a release announcement workflow. You can try its Discord action locally by sending a message to a channel you manage.
 
-Use Node.js 22.12 or newer with npm. Running the API also requires a reachable PostgreSQL instance.
+## Run locally
+
+Use Node.js 22.12 or newer and npm. The website runs on its own. To run the API, you’ll also need a reachable PostgreSQL instance.
 
 ```bash
 git clone https://github.com/JoaoCardosoPT/JForge.git
@@ -32,11 +32,11 @@ npm --prefix Website ci
 npm --prefix Website run dev
 ```
 
-Open the [local website](http://localhost:5174).
+Open the [local homepage](http://localhost:5174) and select **Test** to replay the release workflow.
 
 ### Start the API
 
-Create `Backend/.env` with the connection string for your PostgreSQL instance.
+Create `Backend/.env` with your PostgreSQL connection string.
 
 ```dotenv
 DATABASE_URL=postgresql://jforge:your-password@localhost:5432/jforge
@@ -47,25 +47,35 @@ npm --prefix Backend ci
 npm --prefix Backend run dev
 ```
 
-In another terminal, check that the API is responding.
+Check the health endpoint from another terminal.
 
 ```bash
 curl http://localhost:5000/api/health
 ```
 
-### Open the status UI
+### Open the local frontend
+
+Leave the API running and start the frontend in another terminal.
 
 ```bash
 npm --prefix frontend ci
 npm --prefix frontend run dev
 ```
 
-Vite forwards `/api` requests to `http://localhost:5000` by default. If the API runs on a different origin, set `API_TARGET` in `frontend/.env`. [Local status UI](http://localhost:5173)
+Open the [local frontend](http://localhost:5173). Vite forwards `/api` requests to the local backend on port `5000` by default. Set `API_TARGET` in `frontend/.env` to use a different origin.
 
 ## Discord integration
-As of now these is a really beta version, but later the authentication and use of personal API keys will be made inside of the plantform 
 
-To send a message, set `JFORGE_API_KEY` and `DISCORD_BOT_TOKEN` in `Backend/.env`. The bot needs permission to send messages in the destination channel.
+The beta uses a shared API key. Personal keys managed through the platform are planned.
+
+Give your Discord bot permission to send messages in the destination channel. Add the following values to `Backend/.env`, then restart the API.
+
+| Variable | What to set |
+| --- | --- |
+| `JFORGE_API_KEY` | A secret you choose. Clients send it as a bearer token when calling JForge. |
+| `DISCORD_BOT_TOKEN` | Your Discord bot token. The backend uses it to post the message. |
+
+To send a release announcement, replace `<channelId>` with your Discord channel ID and `<JFORGE_API_KEY>` with your configured key.
 
 ```http
 POST /api/discord/channels/<channelId>/messages
@@ -75,8 +85,17 @@ Content-Type: application/json
 {"content":"A new JForge release is available."}
 ```
 
-A successful request returns `201 Created` with a `messageId`. [Discord route implementation](Backend/src/config/integrations/discord/routes.ts)
+A successful request returns `201 Created` with the Discord `messageId`. [Discord route implementation](Backend/src/config/integrations/discord/routes.ts)
+
+<a id="architecture-discord-example"></a>
+
+<details>
+<summary><strong>How a message reaches Discord</strong></summary>
+
+![The API checks its PostgreSQL connection at startup. For each message, Fastify authenticates the client’s request and forwards the content to Discord using the bot token.](docs/discord-architecture.png)
+
+</details>
 
 ## Contributing
 
-Bug reports, integration ideas, documentation improvements, and pull requests are welcome. [Open an issue](https://github.com/JoaoCardosoPT/JForge/issues)
+Have a tool you’d like to connect? [Suggest an integration or report a bug](https://github.com/JoaoCardosoPT/JForge/issues). Documentation improvements and pull requests are welcome.
